@@ -95,3 +95,16 @@ DELIMITER ;
 
 CALL sp_AdicionarLivro(22, 'Rapunzel e The Rock', 2, 2002, 242, 1);
 SELECT * FROM LIVRO;
+
+-- 8.
+DELIMITER //
+
+CREATE PROCEDURE AutorMaisAntigo()
+BEGIN
+    SELECT nome, Sobrenome
+    FROM Autor
+    WHERE data_nascimento = (SELECT MIN(data_nascimento) FROM Autor);
+END //
+DELIMITER ;
+
+CALL AutorMaisAntigo();
