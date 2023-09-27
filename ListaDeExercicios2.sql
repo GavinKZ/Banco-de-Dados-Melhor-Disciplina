@@ -60,3 +60,15 @@ END //
 DELIMITER ;
 
 CALL sp_LivrosAteAno(2004);
+
+-- 6.
+DELIMITER //
+CREATE PROCEDURE sp_TitulosPorCategoria(IN p_categoria VARCHAR(100))
+BEGIN
+    SELECT titulo FROM Livro 
+    WHERE Categoria_ID = (SELECT Categoria_ID FROM Categoria 
+    WHERE Nome = p_categoria);
+END //
+DELIMITER ;
+
+CALL sp_TitulosPorCategoria("Ficção Científica");
