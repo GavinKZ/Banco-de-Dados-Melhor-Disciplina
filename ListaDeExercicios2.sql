@@ -19,3 +19,15 @@ END //
 DELIMITER ;
 
 CALL sp_LivrosPorCategoria("Romance");
+
+-- 3.
+DELIMITER //
+CREATE PROCEDURE sp_ContarLivrosPorCategoria(IN p_categoria VARCHAR(100))
+BEGIN
+    SELECT Categoria_ID AS ID_DA_CATEGORIA , COUNT(*) AS QUANTIDADE_DE_LIVROS FROM Livro 
+    WHERE Categoria_ID = (SELECT Categoria_ID FROM Categoria 
+    WHERE Nome = p_categoria) GROUP BY Categoria_ID ORDER BY COUNT(Categoria_ID);
+END //
+DELIMITER ;
+
+CALL sp_ContarLivrosPorCategoria("Autoajuda");
