@@ -72,3 +72,26 @@ END //
 DELIMITER ;
 
 CALL sp_TitulosPorCategoria("Ficção Científica");
+
+-- 7.
+DELIMITER //
+CREATE PROCEDURE sp_AdicionarLivro(
+    IN N_Livro_ID INT,
+    IN N_Titulo VARCHAR(255),
+    IN N_Editora_ID INT,
+    IN N_Ano_Publicacao INT,
+    IN N_Numero_Paginas INT,
+    IN N_Categoria_ID INT
+)
+BEGIN
+    DECLARE livro_existente INT;
+    SELECT COUNT(*) INTO livro_existente FROM Livro WHERE Titulo = n_titulo;
+    IF livro_existente = 0 THEN
+        INSERT INTO Livro (Livro_ID, Titulo, Editora_ID, Ano_Publicacao, Numero_Paginas, Categoria_ID)
+        VALUES (N_Livro_ID, N_Titulo, N_Editora_ID, N_Ano_Publicacao, N_Numero_Paginas, N_Categoria_ID);
+    END IF;
+END //
+DELIMITER ;
+
+CALL sp_AdicionarLivro(22, 'Rapunzel e The Rock', 2, 2002, 242, 1);
+SELECT * FROM LIVRO;
