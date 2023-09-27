@@ -31,3 +31,21 @@ END //
 DELIMITER ;
 
 CALL sp_ContarLivrosPorCategoria("Autoajuda");
+
+-- 4.
+DELIMITER //
+CREATE PROCEDURE sp_VerificarLivrosCategoria(IN categoria_valor VARCHAR(100), OUT tf_livros VARCHAR(30))
+BEGIN
+    DECLARE verificar INT;
+    WITH Selet_ID as (SELECT (select Categoria_ID from categoria where nome = Categoria_valor) as cate_valor)
+    SELECT COUNT(*) INTO verificar FROM livro INNER JOIN Selet_ID on cate_valor = Categoria_ID;
+    IF verificar > 0 THEN
+        SET tf_livros = 'Possui Livros';
+    ELSE
+        SET tf_livros = 'Não Possui Livros';
+    END IF;
+END //
+DELIMITER ;
+
+CALL sp_VerificarLivrosCategoria('Ciência', @ver);
+SELECT @ver as tem_ou_não;
